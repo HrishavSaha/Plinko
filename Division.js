@@ -1,0 +1,2 @@
+class Division extends Ground {
+}
