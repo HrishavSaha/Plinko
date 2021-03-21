@@ -10,6 +10,9 @@ var particles = [];
 var plinkos = [];
 var divisions = [];
 
+var score = 0;
+var count = 5;
+
 var DHeight = 400;
 
 function setup() {
@@ -26,19 +29,32 @@ function setup() {
     divisions.push(new Division(i,height-DHeight/2,10,DHeight));
   }
   
-  for(var i = 40;i<=width;i=i+30){
+  for(var i = 20;i<=width;i=i+20){
     plinkos.push(new Plinko(i,75));
   }
 
-  for(var i = 15;i<=width;i=i+30){
+  for(var i = 15;i<=width;i=i+20){
     plinkos.push(new Plinko(i,175));
   }
+
+  //trigger = new Trigger(240);
 }
 
 
 function draw() {
   background("white");
   Engine.update(engine);
+
+  textSize(12);
+  text("200", 190,440);
+  text("200", 270,440);
+  text("100", 110,440);
+  text("100", 350,440);
+  text("50", 30,440);
+  text("50", 430,440);
+
+  text("Score: " + score, 220, 300);
+  text("Count: " + count, 220, 280);
 
   for(var i = 0;i<divisions.length;i++){
     divisions[i].display();
@@ -48,10 +64,10 @@ function draw() {
     plinkos[i].display();
   }
 
-  if(frameCount % 90 === 0){
-    var i = random(50,width-50);
-    particles.push(new Particle(i, 10));
-  }
+  //if(frameCount % 90 === 0){
+  //  var i = random(50,width-50);
+  //  particles.push(new Particle(i, 10));
+  //}
 
   for(var j = 0;j<particles.length;j++){
     particles[j].display();
@@ -59,5 +75,28 @@ function draw() {
 
   platform.display();
 
+  //trigger.display();
+
+  console.log("X: " + mouseX);
+  console.log("Y: " + mouseY);
+
+  if(count === 0){
+    textSize(30);
+    text("GAME OVER",160,240);
+  }
 }
 
+function mousePressed(){
+  if(count > 0){
+    particles.push(new Particle(mouseX, 10));
+    count = count - 1;
+  }
+}
+
+function keyPressed(){
+  if(keyCode === 32){
+    count = 5;
+    score = 0;
+    particles = [];
+  }
+}
